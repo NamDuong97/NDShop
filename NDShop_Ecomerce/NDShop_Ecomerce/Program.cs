@@ -1,8 +1,14 @@
+using Microsoft.EntityFrameworkCore;
+using NDShop_Ecomerce.Data;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddDbContext<Hshop2023Context>(option =>
+{
+    option.UseSqlServer(builder.Configuration.GetConnectionString("DefautlConection"));
+});
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
