@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc;
 using NDShop_Ecomerce.Models;
 
@@ -18,6 +19,11 @@ namespace NDShop_Ecomerce.Controllers
             return View();
         }
 
+        [Route("/404")]
+        public IActionResult PageNotFound()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();

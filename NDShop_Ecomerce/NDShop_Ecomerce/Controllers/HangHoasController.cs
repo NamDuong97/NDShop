@@ -1,5 +1,7 @@
-﻿using AspNetCoreGeneratedDocument;
+﻿using System.Net.Cache;
+using AspNetCoreGeneratedDocument;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using NDShop_Ecomerce.Data;
 using NDShop_Ecomerce.ViewModels;
 
@@ -47,6 +49,29 @@ namespace NDShop_Ecomerce.Controllers
                 MoTanNgan = i.MoTaDonVi ?? "",
                 TenLoai = i.MaLoaiNavigation.TenLoai,
             }).ToList();
+            return View(result);
+        }
+
+        public IActionResult Detail(int id)
+        {
+            var hanghoa = _context.HangHoas.Include(P => P.MaLoaiNavigation).FirstOrDefault(p => p.MaHh == id);
+            if (hanghoa == null)
+            {
+                TempData["Message"] = $"Khong thay san pham co ma id: {id}";
+                return Redirect("/404");
+            }
+            ChiTietHangHoa result =  new ChiTietHangHoa
+            {
+                MaHangHoa = hanghoa.MaHh,
+                TenHH = hanghoa.TenHh,
+                Hinh = hanghoa.Hinh ?? "",
+                DonGia = hanghoa.DonGia ?? 0,
+                MoTanNgan = hanghoa.MoTaDonVi ?? "",
+                TenLoai = hanghoa.MaLoaiNavigation.TenLoai,
+                ChiTiet = hanghoa.MoTa ?? "",
+                SoLuongTon = 10,
+                DiemDanhGia = 5,
+            };
             return View(result);
         }
     }
